@@ -47,7 +47,7 @@ const pillars = [
       <h1>{club.name}</h1>
       <p class="lede">{club.tagline}</p>
       <p class="cta">
-        <a href={club.joinUrl} class="btn btn-primary">Join the club</a>
+        <a href={club.groupmeUrl} class="btn btn-primary" rel="noopener" target="_blank">Join our GroupMe</a>
         <a href={url('/events/')} class="btn btn-ghost">See events →</a>
         {club.social.linkedin && <a href={club.social.linkedin} class="btn btn-ghost" rel="noopener" target="_blank">LinkedIn ↗</a>}
       </p>

@@ -18,6 +18,9 @@ export const club = {
   // Google Form (or mailing-list) link for the "Join" button
   joinUrl: 'https://forms.gle/your-form-id',
 
+  // GroupMe invite link for the "Join GroupMe" buttons
+  groupmeUrl: 'https://groupme.com/join_group/106715228/X8A9zme6',
+
   // Where and when general meetings happen
   meetings: 'Wednesdays, 7:00 PM · Room TBD',
 

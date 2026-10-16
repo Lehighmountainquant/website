@@ -23,7 +23,7 @@ const isActive = (href: string) => path.startsWith(url(href));
         {nav.map((item) => (
           <a href={url(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
         ))}
-        <a href={club.joinUrl} class="btn btn-gold join">Join</a>
+        <a href={club.groupmeUrl} class="btn btn-gold join" rel="noopener" target="_blank">Join GroupMe</a>
       </nav>
     </details>
   </div>
@@ -46,7 +46,6 @@ const isActive = (href: string) => path.startsWith(url(href));
     font-family: var(--serif); font-weight: 500; font-size: 1.2rem;
     color: var(--ink); text-decoration: none;
   }
-  .brand svg { color: #000; }
 
   /* Mobile: collapsible menu (no JavaScript needed) */
   .menu summary {
