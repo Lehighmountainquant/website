@@ -23,7 +23,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <link rel="icon" type="image/jpeg" href={url('/logo.jpg')} />
+    <link rel="apple-touch-icon" href={url('/logo.jpg')} />
 
     <!-- Link previews (iMessage, Slack, LinkedIn) -->
     <meta property="og:type" content="website" />
