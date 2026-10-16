@@ -30,7 +30,7 @@ const initials = (name: string) => name.split(/\s+/).map((w) => w[0]).slice(0, 2
       <h2>How to get involved</h2>
       <ul>
         <li>Come to a general meeting: <strong>{club.meetings}</strong></li>
-        <li><a href={club.joinUrl}>Fill out the interest form</a> to get on the mailing list</li>
+        <li><a href={club.groupmeUrl} target="_blank" rel="noopener">Join our GroupMe</a> for meeting announcements and updates</li>
         <li>Pitch a research project or join an existing team at the start of each semester</li>
       </ul>
     </section>
@@ -38,20 +38,26 @@ const initials = (name: string) => name.split(/\s+/).map((w) => w[0]).slice(0, 2
     <section>
       <h2>Leadership</h2>
       <div class="team">
-        {team.map((m) => (
-          <div class="member">
-            {m.data.photo
-              ? <img src={url(m.data.photo)} alt="" class="avatar" loading="lazy" />
-              : <div class="avatar initials" aria-hidden="true">{initials(m.data.name)}</div>}
-            <div>
-              <p class="name">{m.data.name}</p>
-              <p class="role">{m.data.role}</p>
-              <p class="muted small">{[m.data.major, m.data.year].filter(Boolean).join(' · ')}</p>
-              {m.body?.trim() && <p class="small bio">{m.body.trim()}</p>}
-              {m.data.linkedin && <a href={m.data.linkedin} class="small">LinkedIn</a>}
+        {team.map((m) => {
+          const Link = m.data.linkedin ? 'a' : 'span';
+          const linkProps = m.data.linkedin ? { href: m.data.linkedin, target: '_blank', rel: 'noopener' } : {};
+          return (
+            <div class="member">
+              <Link {...linkProps} class="avatar-link" aria-hidden="true" tabindex="-1">
+                {m.data.photo
+                  ? <img src={url(m.data.photo)} alt="" class="avatar" loading="lazy" />
+                  : <div class="avatar initials">{initials(m.data.name)}</div>}
+              </Link>
+              <div>
+                <p class="name"><Link {...linkProps}>{m.data.name}</Link></p>
+                <p class="role">{m.data.role}</p>
+                <p class="muted small">{[m.data.major, m.data.year].filter(Boolean).join(' · ')}</p>
+                {m.body?.trim() && <p class="small bio">{m.body.trim()}</p>}
+                {m.data.linkedin && <a href={m.data.linkedin} class="small li" target="_blank" rel="noopener">LinkedIn ↗</a>}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   </div>
@@ -67,7 +73,11 @@ const initials = (name: string) => name.split(/\s+/).map((w) => w[0]).slice(0, 2
     display: grid; place-items: center; background: var(--gold-20); color: var(--brown); border: 2px solid var(--gold);
     font-family: var(--serif); font-size: 1.4rem;
   }
+  .avatar-link { flex-shrink: 0; border-radius: 50%; transition: transform 0.15s; }
+  a.avatar-link:hover { transform: scale(1.04); }
   .name { font-weight: 600; margin: 0; }
+  .name a { color: inherit; text-decoration: none; }
+  .name a:hover { color: var(--accent); text-decoration: underline; }
   .role { margin: 0; color: var(--accent); font-size: 0.92rem; }
   .small { font-size: 0.88rem; margin: 0.2rem 0; }
   .bio { color: var(--ink-2); }

@@ -1,7 +1,7 @@
 ---
 title: "Guest Speaker: Jeff Bulick"
 date: 2026-09-09
-speaker: "Jeff Bulick, senior tech consultant (EY, CRD)"
+speaker: "Jeff Bulick: Retail / Risk Management at Northwestern Mutual; formerly senior tech consultant at EY and CRD"
 photos:
   - /events/2026-09-09/flyer.jpg
 ---

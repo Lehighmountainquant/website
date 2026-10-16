@@ -15,9 +15,6 @@ export const club = {
 
   email: 'quantclub@example.edu',
 
-  // Google Form (or mailing-list) link for the "Join" button
-  joinUrl: 'https://forms.gle/your-form-id',
-
   // GroupMe invite link for the "Join GroupMe" buttons
   groupmeUrl: 'https://groupme.com/join_group/106715228/X8A9zme6',
 

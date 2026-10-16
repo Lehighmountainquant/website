@@ -8,7 +8,7 @@ The club's website, built with [Astro](https://astro.build) and hosted free on G
 
 ### 1. Make it yours
 
-Open `src/config.ts` and replace the placeholders: club name, school, email, join-form link, meeting time, and social links. Then replace the sample files in `src/content/` (events, team, research) with real ones.
+Open `src/config.ts` and replace the placeholders: club name, school, email, meeting time, and social links. Then replace the sample files in `src/content/` (events, team, research) with real ones.
 
 ### 2. Create the club's GitHub organization
 
