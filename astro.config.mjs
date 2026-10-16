@@ -14,7 +14,7 @@ export default defineConfig({
     // LaTeX math in research write-ups: $inline$ and $$display$$
     processor: unified({ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }),
     shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark' },
+      theme: 'github-light',
     },
   },
 });

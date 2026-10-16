@@ -1,6 +1,7 @@
 ---
 import { club, nav } from '../config';
 import { url } from '../lib/utils';
+import Logo from './Logo.astro';
 
 const labels: Record<string, string> = { github: 'GitHub', linkedin: 'LinkedIn', instagram: 'Instagram', discord: 'Discord' };
 const socials = Object.entries(club.social).filter(([, href]) => href);
@@ -10,31 +11,57 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="wrap cols">
     <div>
-      <p class="name">{club.name}</p>
-      <p class="muted">{club.school}<br />{club.meetings}</p>
+      <div class="brand">
+        <span class="mark"><Logo size={64} /></span>
+        <p class="name">{club.name}</p>
+      </div>
+      <p class="meta">{club.meetings}</p>
       <p><a href={`mailto:${club.email}`}>{club.email}</a></p>
     </div>
     <nav aria-label="Footer">
+      <p class="label">Explore</p>
       {nav.map((item) => <a href={url(item.href)}>{item.label}</a>)}
     </nav>
-    {socials.length > 0 && (
-      <div class="social">
-        {socials.map(([name, href]) => (
-          <a href={href} rel="me noopener" target="_blank">{labels[name] ?? name}</a>
-        ))}
-      </div>
-    )}
+    <div class="social">
+      <p class="label">Follow</p>
+      {socials.map(([name, href]) => (
+        <a href={href} rel="me noopener" target="_blank">{labels[name] ?? name} ↗</a>
+      ))}
+    </div>
   </div>
-  <div class="wrap fine muted">© {year} {club.name}. Not investment advice.</div>
+
+  <div class="wrap school">
+    {club.schoolLogo
+      ? <img src={url(club.schoolLogo)} alt={club.school} class="school-logo" />
+      : <span class="school-name">{club.school}</span>}
+    <span class="fine">A student organization at {club.school}. © {year} {club.name}. Not investment advice.</span>
+  </div>
 </footer>
 
 <style>
-  .site-footer { margin-top: 6rem; border-top: 1px solid var(--rule); padding: 2.5rem 0 2rem; font-size: 0.92rem; }
+  .site-footer {
+    margin-top: 6rem;
+    background: var(--brown);
+    color: #f6f4f2;
+    border-top: 4px solid var(--gold);
+    padding: 3rem 0 2rem;
+    font-size: 0.92rem;
+  }
   .cols { display: grid; gap: 2rem; }
   @media (min-width: 720px) { .cols { grid-template-columns: 2fr 1fr 1fr; } }
-  .name { font-family: var(--serif); font-size: 1.2rem; margin-bottom: 0.4em; }
+  .brand { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.8rem; }
+  .mark { display: grid; place-items: center; background: #fff; color: #000; border-radius: 8px; padding: 0.55rem 0.6rem; }
+  .name { font-family: var(--serif); font-size: 1.3rem; margin: 0; color: #fff; }
+  .meta { color: var(--brown-20); }
+  .label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
   nav, .social { display: flex; flex-direction: column; gap: 0.4rem; }
-  nav a, .social a { color: var(--ink-2); text-decoration: none; }
-  nav a:hover, .social a:hover { color: var(--accent); }
-  .fine { margin-top: 2rem; font-size: 0.8rem; }
+  a { color: #f6f4f2; text-decoration: none; }
+  a:hover { color: var(--gold); text-decoration: none; }
+  .school {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem;
+    margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  .school-logo { height: 2.75rem; width: auto; }
+  .school-name { font-family: var(--serif); font-size: 1.25rem; color: #fff; letter-spacing: 0.02em; }
+  .fine { font-size: 0.8rem; color: var(--brown-20); }
 </style>

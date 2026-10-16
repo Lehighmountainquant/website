@@ -1,6 +1,7 @@
 ---
 import { club, nav } from '../config';
 import { url } from '../lib/utils';
+import Logo from './Logo.astro';
 
 const path = Astro.url.pathname;
 const isActive = (href: string) => path.startsWith(url(href));
@@ -10,9 +11,7 @@ const isActive = (href: string) => path.startsWith(url(href));
 <header class="site-header">
   <div class="wrap bar">
     <a href={url('/')} class="brand" aria-label={`${club.name} home`}>
-      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
-        <polyline points="3,24 10,17 15,20 22,9 29,12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
+      <Logo size={44} />
       <span>{club.shortName}</span>
     </a>
 
@@ -24,7 +23,7 @@ const isActive = (href: string) => path.startsWith(url(href));
         {nav.map((item) => (
           <a href={url(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
         ))}
-        <a href={club.joinUrl} class="btn btn-primary join">Join</a>
+        <a href={club.joinUrl} class="btn btn-gold join">Join</a>
       </nav>
     </details>
   </div>
@@ -38,15 +37,16 @@ const isActive = (href: string) => path.startsWith(url(href));
     position: sticky; top: 0; z-index: 5;
     background: color-mix(in srgb, var(--bg) 88%, transparent);
     backdrop-filter: blur(8px);
+    border-top: 4px solid var(--gold);
     border-bottom: 1px solid var(--rule);
   }
   .bar { display: flex; align-items: center; justify-content: space-between; height: 3.75rem; }
   .brand {
     display: flex; align-items: center; gap: 0.55rem;
-    font-family: var(--mono); font-weight: 500; font-size: 1rem; letter-spacing: 0.04em;
+    font-family: var(--serif); font-weight: 500; font-size: 1.2rem;
     color: var(--ink); text-decoration: none;
   }
-  .brand svg { color: var(--accent); }
+  .brand svg { color: #000; }
 
   /* Mobile: collapsible menu (no JavaScript needed) */
   .menu summary {
@@ -66,7 +66,7 @@ const isActive = (href: string) => path.startsWith(url(href));
     color: var(--ink-2); text-decoration: none; font-size: 0.95rem;
     padding: 0.7rem 0; border-bottom: 1px solid var(--rule);
   }
-  nav a[aria-current='page'] { color: var(--accent); }
+  nav a[aria-current='page'] { color: var(--brown); font-weight: 600; }
   .join { margin-top: 1rem; justify-content: center; }
 
   /* Desktop: inline nav */
@@ -74,7 +74,8 @@ const isActive = (href: string) => path.startsWith(url(href));
     .menu summary { display: none; }
     .menu nav { position: static; flex-direction: row; align-items: center; gap: 1.6rem; padding: 0; border: 0; background: none; }
     .menu:not([open]) nav { display: flex; }
-    nav a:not(.btn) { padding: 0; border: 0; }
+    nav a:not(.btn) { padding: 0.2rem 0; border: 0; border-bottom: 2px solid transparent; }
+    nav a[aria-current='page'] { border-bottom-color: var(--gold); }
     nav a:not(.btn):hover { color: var(--ink); }
     .join { margin: 0 0 0 0.4rem; padding: 0.45em 1em; }
   }

@@ -5,9 +5,9 @@
 // ─────────────────────────────────────────────────────────────
 
 export const club = {
-  name: 'Quantitative Finance Club',
-  shortName: 'QFC',
-  school: 'University',
+  name: 'Lehigh University Quant Club',
+  shortName: 'Lehigh Quant Club',
+  school: 'Lehigh University',
   tagline: 'Probability, markets, and code — learned by doing.',
   description:
     'A student organization for anyone curious about quantitative finance: ' +
@@ -21,10 +21,15 @@ export const club = {
   // Where and when general meetings happen
   meetings: 'Wednesdays, 7:00 PM · Room TBD',
 
+  // Optional: official Lehigh logo file for student organizations.
+  // Put the file in public/ (e.g. public/lehigh-logo.svg) and set the path here.
+  // Leave '' to show the university name as text instead.
+  schoolLogo: '',
+
   // Leave a link as '' to hide it
   social: {
-    github: 'https://github.com/your-club-org',
-    linkedin: '',
+    linkedin: 'https://www.linkedin.com/company/lehigh-mountain-quants/',
+    github: '',
     instagram: '',
     discord: '',
   },

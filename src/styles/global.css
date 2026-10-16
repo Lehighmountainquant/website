@@ -1,17 +1,25 @@
 /* ── Theme tokens ─────────────────────────────────────────────
-   Change --accent to re-color the whole site. */
+   Lehigh University palette (from Lehigh's web style guide).
+   White page, Lehigh Brown for text accents and buttons, Gold as a highlight. */
 :root {
-  --bg: #fbfaf7;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --ink: #16181d;
-  --ink-2: #4a4f5a;
-  --ink-3: #7a808c;
-  --rule: #e3e1da;
-  --accent: #0f6b55;
+  --tint: #f6f4f2;          /* Lehigh Brown 02 — light warm panels */
+  --ink: #1c1712;
+  --ink-2: #4b4038;
+  --ink-3: #7d7166;
+  --rule: #e6dfd8;
+
+  --brown: #502d0e;         /* Lehigh Brown */
+  --brown-80: #83541e;
+  --brown-20: #dec8b2;
+  --gold: #ffe41e;          /* Lehigh Gold / Golden Hour */
+  --gold-20: #fffbe1;
+  --gold-60: #fdeca1;
+
+  --accent: var(--brown);
   --accent-ink: #ffffff;
-  --accent-soft: #e4f1ec;
-  --up: #0f6b55;
-  --down: #b4412f;
+  --accent-soft: var(--tint);
 
   --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
   --sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
@@ -21,23 +29,6 @@
   --prose: 42rem;
   --radius: 6px;
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1114;
-    --surface: #16191e;
-    --ink: #e9e7e1;
-    --ink-2: #b0b4bc;
-    --ink-3: #828793;
-    --rule: #2a2e35;
-    --accent: #4cc9a4;
-    --accent-ink: #0b1f19;
-    --accent-soft: #15302a;
-    --up: #4cc9a4;
-    --down: #ef7d68;
-    color-scheme: dark;
-  }
 }
 
 /* ── Base ─────────────────────────────────────────────────── */
@@ -53,8 +44,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 img { max-width: 100%; height: auto; display: block; }
-a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
-a:hover { text-decoration-thickness: 2px; }
+a { color: var(--brown-80); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { color: var(--brown); text-decoration-color: var(--gold); text-decoration-thickness: 3px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
 h1, h2, h3 {
@@ -85,6 +76,7 @@ p { margin: 0 0 1em; }
 .muted { color: var(--ink-3); }
 .mono { font-family: var(--mono); }
 
+.page-head h1::after { content: ''; display: block; width: 3rem; height: 4px; background: var(--gold); margin-top: 0.9rem; }
 .page-head { padding: 3.5rem 0 2rem; border-bottom: 1px solid var(--rule); margin-bottom: 2.5rem; }
 section + section { margin-top: 4rem; }
 
@@ -97,7 +89,9 @@ section + section { margin-top: 4rem; }
   transition: background 0.15s, border-color 0.15s;
 }
 .btn-primary { background: var(--accent); color: var(--accent-ink); }
-.btn-primary:hover { filter: brightness(1.08); }
+.btn-primary:hover { background: var(--brown-80); }
+.btn-gold { background: var(--gold); color: var(--brown); }
+.btn-gold:hover { background: var(--gold-60); }
 .btn-ghost { border-color: var(--rule); color: var(--ink); }
 .btn-ghost:hover { border-color: var(--ink-3); }
 
@@ -116,7 +110,7 @@ section + section { margin-top: 4rem; }
 .tag {
   display: inline-block; font-family: var(--mono); font-size: 0.72rem;
   padding: 0.15em 0.55em; border-radius: 3px;
-  background: var(--accent-soft); color: var(--accent);
+  background: var(--gold-20); color: var(--brown); border: 1px solid var(--gold-60);
   margin: 0 0.3em 0.3em 0;
 }
 
@@ -128,7 +122,7 @@ section + section { margin-top: 4rem; }
 .prose h3 { margin-top: 1.8em; }
 .prose ul, .prose ol { padding-left: 1.3em; }
 .prose li { margin-bottom: 0.35em; }
-.prose blockquote { margin: 1.5em 0; padding-left: 1em; border-left: 3px solid var(--accent); color: var(--ink-2); }
+.prose blockquote { margin: 1.5em 0; padding: 0.6em 1em; background: var(--gold-20); border-left: 4px solid var(--gold); color: var(--ink-2); }
 .prose table { border-collapse: collapse; width: 100%; font-size: 0.95rem; margin: 1.5em 0; display: block; overflow-x: auto; }
 .prose th, .prose td { border-bottom: 1px solid var(--rule); padding: 0.5em 0.75em; text-align: left; }
 .prose th .katex { text-transform: none; }
@@ -136,15 +130,8 @@ section + section { margin-top: 4rem; }
 .prose code { font-family: var(--mono); font-size: 0.88em; }
 .prose :not(pre) > code { background: var(--accent-soft); padding: 0.1em 0.35em; border-radius: 3px; }
 .prose pre {
+  background: var(--tint) !important;
   padding: 1rem 1.15rem; border-radius: var(--radius); overflow-x: auto;
   border: 1px solid var(--rule); font-size: 0.88rem; line-height: 1.55;
 }
 .prose .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25em 0; }
-
-/* Shiki dual theme: switch code colors in dark mode */
-@media (prefers-color-scheme: dark) {
-  .astro-code, .astro-code span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-  }
-}

@@ -33,9 +33,10 @@ const day = date.toLocaleDateString('en-US', { day: 'numeric', timeZone: 'Americ
 <style>
   .event { display: grid; grid-template-columns: 4rem 1fr; gap: 1.25rem; padding: 1.5rem 0; border-bottom: 1px solid var(--rule); }
   .date { text-align: center; border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.5rem 0; height: fit-content; background: var(--surface); }
-  .m { display: block; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
+  .date { border-top: 4px solid var(--gold); }
+  .m { display: block; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brown); font-weight: 500; }
   .d { display: block; font-family: var(--serif); font-size: 1.7rem; line-height: 1.1; }
-  .past .date { opacity: 0.6; }
+  .past .date { opacity: 0.6; border-top-color: var(--rule); }
   .past .m { color: var(--ink-3); }
   .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--ink-3); }
   .meta .tag { margin: 0; }
