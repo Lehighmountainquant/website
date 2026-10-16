@@ -10,12 +10,10 @@ const events = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/events' }),
   schema: z.object({
     title: z.string(),
-    date: z.coerce.date(), // e.g. 2026-11-04T19:00
-    location: z.string(),
-    type: z.enum(['Speaker', 'Workshop', 'Competition', 'Social', 'General Meeting']),
+    date: z.coerce.date(), // day of the meeting, e.g. 2026-11-04
     speaker: z.string().optional(),
-    rsvp: z.string().url().optional(),
     slides: z.string().optional(), // path in /public, e.g. /slides/options-101.pdf
+    photos: z.array(z.string()).default([]), // paths in /public, e.g. /events/2026-11-04/1.jpg
   }),
 });
 

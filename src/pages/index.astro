@@ -5,10 +5,8 @@ import EventCard from '../components/EventCard.astro';
 import { club } from '../config';
 import { url, formatDate, randomWalk } from '../lib/utils';
 
-const now = new Date();
-const upcoming = (await getCollection('events'))
-  .filter((e) => e.data.date >= now)
-  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
+const recent = (await getCollection('events'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 2);
 
 const research = (await getCollection('projects', (p) => !p.data.draft))
@@ -48,7 +46,7 @@ const pillars = [
       <p class="lede">{club.tagline}</p>
       <p class="cta">
         <a href={club.groupmeUrl} class="btn btn-primary" rel="noopener" target="_blank">Join our GroupMe</a>
-        <a href={url('/events/')} class="btn btn-ghost">See events →</a>
+        <a href={url('/events/')} class="btn btn-ghost">Past meetings →</a>
         {club.social.linkedin && <a href={club.social.linkedin} class="btn btn-ghost" rel="noopener" target="_blank">LinkedIn ↗</a>}
       </p>
       <p class="muted meet mono">{club.meetings}</p>
@@ -70,12 +68,12 @@ const pillars = [
 
     <section>
       <div class="section-head">
-        <h2>Upcoming</h2>
-        <a href={url('/events/')}>All events →</a>
+        <h2>Recent meetings</h2>
+        <a href={url('/events/')}>All meetings →</a>
       </div>
-      {upcoming.length > 0
-        ? upcoming.map((e) => <EventCard event={e} />)
-        : <p class="empty">No events scheduled yet — check back soon or join the mailing list.</p>}
+      {recent.length > 0
+        ? recent.map((e) => <EventCard event={e} preview />)
+        : <p class="empty">Meeting recaps will show up here after our first meeting.</p>}
     </section>
 
     {research.length > 0 && (

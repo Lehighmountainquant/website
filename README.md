@@ -35,7 +35,7 @@ git push -u origin main
 
 In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
-Then open the **Actions** tab — the first deploy runs automatically and takes about a minute. After that, every push to `main` updates the site, and it also rebuilds once a day so past events move to the "Past" section on their own.
+Then open the **Actions** tab — the first deploy runs automatically and takes about a minute. After that, every push to `main` updates the site.
 
 ## Running it on your own computer (optional)
 
@@ -53,7 +53,7 @@ npm run build    # production build into dist/
 src/
 ├── config.ts          ← club name, email, links, nav menu
 ├── content/
-│   ├── events/        ← one .md file per event
+│   ├── events/        ← one .md file per meeting recap
 │   ├── projects/      ← research write-ups (supports LaTeX math & code)
 │   └── team/          ← one .md file per officer
 ├── pages/             ← one file per page (about, events, resources, sponsors…)

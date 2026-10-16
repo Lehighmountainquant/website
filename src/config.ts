@@ -22,7 +22,7 @@ export const club = {
   groupmeUrl: 'https://groupme.com/join_group/106715228/X8A9zme6',
 
   // Where and when general meetings happen
-  meetings: 'Wednesdays, 7:00 PM · Room TBD',
+  meetings: 'Wednesdays, 4:30 PM · Room TBD',
 
   // Optional: official Lehigh logo file for student organizations.
   // Put the file in public/ (e.g. public/lehigh-logo.svg) and set the path here.
@@ -40,7 +40,7 @@ export const club = {
 
 export const nav = [
   { href: '/about/', label: 'About' },
-  { href: '/events/', label: 'Events' },
+  { href: '/events/', label: 'Meetings' },
   { href: '/projects/', label: 'Research' },
   { href: '/resources/', label: 'Resources' },
   { href: '/sponsors/', label: 'Sponsors' },

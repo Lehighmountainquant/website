@@ -1,32 +1,39 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { formatDate, formatTime, url } from '../lib/utils';
+import { render, type CollectionEntry } from 'astro:content';
+import { formatDate, url } from '../lib/utils';
 
-interface Props { event: CollectionEntry<'events'>; past?: boolean }
-const { event, past = false } = Astro.props;
-const { title, date, location, type, speaker, rsvp, slides } = event.data;
-const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'America/New_York' });
-const day = date.toLocaleDateString('en-US', { day: 'numeric', timeZone: 'America/New_York' });
+interface Props { event: CollectionEntry<'events'>; preview?: boolean }
+const { event, preview = false } = Astro.props;
+const { title, date, speaker, slides, photos } = event.data;
+const { Content } = await render(event);
+// Dates are plain days (2026-11-04), so read them in UTC to avoid shifting a day.
+const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+const day = date.toLocaleDateString('en-US', { day: 'numeric', timeZone: 'UTC' });
+const shown = preview ? photos.slice(0, 3) : photos;
 ---
 
-<article class:list={['event', { past }]}>
+<article class="event">
   <div class="date" aria-hidden="true">
     <span class="m">{month}</span>
     <span class="d">{day}</span>
   </div>
   <div class="body">
     <p class="meta">
-      <span class="tag">{type}</span>
-      <time datetime={date.toISOString()}>{formatDate(date, { weekday: 'short' })} · {formatTime(date)}</time>
+      <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date, { weekday: 'short', timeZone: 'UTC' })}</time>
     </p>
     <h3>{title}</h3>
     {speaker && <p class="speaker">{speaker}</p>}
-    <p class="muted loc">{location}</p>
-    {event.body && <p class="desc">{event.body.trim().split('\n\n')[0]}</p>}
-    <p class="links">
-      {!past && rsvp && <a href={rsvp} class="btn btn-primary">RSVP</a>}
-      {slides && <a href={url(slides)} class="btn btn-ghost">Slides</a>}
-    </p>
+    <div class="desc"><Content /></div>
+    {shown.length > 0 && (
+      <div class="photos">
+        {shown.map((src, i) => (
+          <a href={url(src)} target="_blank" rel="noopener">
+            <img src={url(src)} alt={`${title} — photo ${i + 1}`} loading="lazy" />
+          </a>
+        ))}
+      </div>
+    )}
+    {slides && <p class="links"><a href={url(slides)} class="btn btn-ghost">Slides</a></p>}
   </div>
 </article>
 
@@ -36,14 +43,15 @@ const day = date.toLocaleDateString('en-US', { day: 'numeric', timeZone: 'Americ
   .date { border-top: 4px solid var(--gold); }
   .m { display: block; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brown); font-weight: 500; }
   .d { display: block; font-family: var(--serif); font-size: 1.7rem; line-height: 1.1; }
-  .past .date { opacity: 0.6; border-top-color: var(--rule); }
-  .past .m { color: var(--ink-3); }
   .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--ink-3); }
-  .meta .tag { margin: 0; }
   h3 { margin-bottom: 0.2em; }
   .speaker { margin: 0; color: var(--ink-2); }
-  .loc { font-size: 0.9rem; margin: 0.2rem 0 0.6rem; }
-  .desc { color: var(--ink-2); margin-bottom: 0.75rem; }
+  .desc { color: var(--ink-2); margin: 0.5rem 0 0.75rem; }
+  .desc :global(p:last-child) { margin-bottom: 0; }
+  .photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 12rem)); align-items: start; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .photos a { display: block; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--rule); }
+  .photos img { display: block; width: 100%; height: auto; transition: transform 0.2s; }
+  .photos a:hover img { transform: scale(1.03); }
   .links { display: flex; gap: 0.5rem; margin: 0; }
-  .links:empty { display: none; }
+  @media (max-width: 480px) { .event { grid-template-columns: 1fr; gap: 0.75rem; } .date { width: 4rem; } }
 </style>

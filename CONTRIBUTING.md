@@ -7,26 +7,29 @@ The easiest way to add something new is to **copy an existing file** in the same
 
 ---
 
-## Add an event
+## Add a meeting recap (with photos)
 
-Create `src/content/events/2026-11-04-short-name.md`:
+After each meeting (Wednesdays, 4:30 PM):
+
+1. **Upload photos** to a new folder `public/events/2026-11-04/` (Add file → Upload files, and type the folder name into the path). Use `.jpg` or `.png`; phone photos are fine.
+2. **Create** `src/content/events/2026-11-04-short-name.md`:
 
 ```md
 ---
 title: "Options 101 Workshop"
-date: 2026-11-04T19:00:00-05:00
-location: "Room 101"
-type: Workshop
+date: 2026-11-04
 speaker: "Optional — delete this line if none"
-rsvp: "https://forms.gle/... (optional)"
-slides: "/slides/options-101.pdf (optional, add after the event)"
+slides: "/slides/options-101.pdf"   # optional
+photos:
+  - /events/2026-11-04/1.jpg
+  - /events/2026-11-04/2.jpg
 ---
-One or two sentences describing the event.
+A few sentences on what we covered.
 ```
 
-- `type` must be one of: `Speaker`, `Workshop`, `Competition`, `Social`, `General Meeting`
-- Date format is `YYYY-MM-DDTHH:MM:SS` then the time zone: `-04:00` during daylight saving (mid-March → early November), `-05:00` otherwise.
-- Events move from "Upcoming" to "Past" automatically.
+- `date` is just the day, `YYYY-MM-DD`.
+- Photo paths must match the uploaded file names exactly (capital letters matter). Leave out `photos:` if there are none.
+- Meetings show newest first on the Meetings page; the two most recent also appear on the home page.
 
 ## Add slides from a workshop
 
@@ -77,7 +80,7 @@ Edit `src/config.ts`.
 
 ## Something broke?
 
-Open the **Actions** tab. A red ✗ means the last change has an error — click it to see which file and line. The most common causes are a missing quote, a misspelled field name, or a `type` that isn't in the allowed list. The live site stays on the last working version until it's fixed.
+Open the **Actions** tab. A red ✗ means the last change has an error — click it to see which file and line. The most common causes are a missing quote, a misspelled field name, or a photo path that doesn't match the uploaded file. The live site stays on the last working version until it's fixed.
 
 ---
 
