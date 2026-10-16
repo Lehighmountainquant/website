@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url, formatDate } from '../../lib/utils';
+
+const projects = (await getCollection('projects', (p) => !p.data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Base title="Research" description="Research projects and write-ups by club members.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Research</p>
+      <h1>Member research</h1>
+      <p class="lede">Projects our members have taken from a question to a result. Code is linked where available.</p>
+    </header>
+
+    {projects.length === 0 && <p class="empty">No write-ups published yet.</p>}
+
+    <ol class="list">
+      {projects.map((p) => (
+        <li>
+          <p class="eyebrow">{formatDate(p.data.date, { timeZone: 'UTC' })} · {p.data.authors.join(', ')}</p>
+          <h2><a href={url(`/projects/${p.id}/`)}>{p.data.title}</a></h2>
+          <p class="muted">{p.data.summary}</p>
+          <p>{p.data.tags.map((t) => <span class="tag">{t}</span>)}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>
+
+<style>
+  .list { list-style: none; padding: 0; margin: 0; max-width: var(--prose); }
+  .list li { padding: 1.75rem 0; border-bottom: 1px solid var(--rule); }
+  .list li:first-child { padding-top: 0; }
+  .list h2 { font-size: 1.6rem; margin-bottom: 0.3em; }
+  .list h2 a { color: var(--ink); text-decoration: none; }
+  .list h2 a:hover { color: var(--accent); }
+  .list p:last-child { margin: 0; }
+</style>

@@ -1,0 +1,113 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/utils';
+
+// Edit this list freely. Each stage is a column in the learning path.
+// `free: true` shows a "Free" badge.
+const path = [
+  {
+    stage: 'Foundations',
+    note: 'Start here if you have never done any quant prep.',
+    items: [
+      { title: 'Stat 110: Probability (Harvard)', by: 'Joe Blitzstein — free lectures & book', href: 'https://stat110.hsites.harvard.edu/', free: true },
+      { title: 'Fifty Challenging Problems in Probability', by: 'Frederick Mosteller' },
+      { title: 'Python for Data Analysis', by: 'Wes McKinney — free online edition', href: 'https://wesmckinney.com/book/', free: true },
+    ],
+  },
+  {
+    stage: 'Markets & Derivatives',
+    note: 'How markets work and how instruments are priced.',
+    items: [
+      { title: 'Trading and Exchanges', by: 'Larry Harris' },
+      { title: 'Options, Futures, and Other Derivatives', by: 'John Hull' },
+      { title: 'Topics in Mathematics with Applications in Finance', by: 'MIT OpenCourseWare 18.S096', href: 'https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/', free: true },
+    ],
+  },
+  {
+    stage: 'Interview Prep',
+    note: 'Brain teasers, mental math, and market-making.',
+    items: [
+      { title: 'Heard on the Street', by: 'Timothy Crack' },
+      { title: 'A Practical Guide to Quantitative Finance Interviews', by: 'Xinfeng Zhou' },
+      { title: 'Zetamac arithmetic drill', by: 'Mental-math speed practice', href: 'https://arithmetic.zetamac.com/', free: true },
+      { title: 'Jane Street monthly puzzles', by: 'Puzzle archive', href: 'https://www.janestreet.com/puzzles/', free: true },
+    ],
+  },
+  {
+    stage: 'Research & Strategy',
+    note: 'For when you want to build and test your own ideas.',
+    items: [
+      { title: 'Active Portfolio Management', by: 'Grinold & Kahn' },
+      { title: 'Advances in Financial Machine Learning', by: 'Marcos López de Prado' },
+      { title: 'QuantConnect', by: 'Free backtesting platform & data', href: 'https://www.quantconnect.com/', free: true },
+    ],
+  },
+];
+
+// Put workshop slides in public/slides/ and list them here.
+// e.g. { title: 'Options 101', file: '/slides/options-101.pdf' }
+const workshops = [
+  { title: 'Expected Value & the Kelly Criterion', file: '' },
+  { title: 'Intro to Backtesting in Python', file: '' },
+  { title: 'Options 101: Payoffs to Black–Scholes', file: '' },
+];
+---
+
+<Base title="Resources" description="A learning path for quantitative finance, plus slides from past workshops.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Resources</p>
+      <h1>Learning path</h1>
+      <p class="lede">What our members actually use, in roughly the order we'd suggest. Free resources are marked.</p>
+    </header>
+
+    <ol class="stages">
+      {path.map((s, i) => (
+        <li class="stage">
+          <p class="eyebrow">Stage {i + 1}</p>
+          <h2>{s.stage}</h2>
+          <p class="muted note">{s.note}</p>
+          <ul>
+            {s.items.map((it) => (
+              <li>
+                {it.href ? <a href={it.href}>{it.title}</a> : <span class="t">{it.title}</span>}
+                {it.free && <span class="tag">Free</span>}
+                <span class="by">{it.by}</span>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
+
+    <section>
+      <h2>Workshop slides</h2>
+      <ul class="slides">
+        {workshops.map((w) => (
+          <li>
+            <span>{w.title}</span>
+            {w.file ? <a href={url(w.file)}>PDF</a> : <span class="muted mono small">coming soon</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .stages { list-style: none; padding: 0; margin: 0; display: grid; gap: 2.5rem; }
+  @media (min-width: 820px) { .stages { grid-template-columns: 1fr 1fr; gap: 3rem 2.5rem; } }
+  .stage { border-top: 2px solid var(--ink); padding-top: 1rem; }
+  .stage .eyebrow { color: var(--accent); }
+  .stage h2 { font-size: 1.5rem; margin-bottom: 0.2em; }
+  .note { font-size: 0.95rem; }
+  .stage ul { list-style: none; padding: 0; margin: 0; }
+  .stage li { padding: 0.65rem 0; border-bottom: 1px solid var(--rule); }
+  .stage li .tag { margin: 0 0 0 0.4rem; vertical-align: 1px; }
+  .t { font-weight: 500; }
+  .by { display: block; font-size: 0.88rem; color: var(--ink-3); }
+
+  .slides { list-style: none; padding: 0; margin: 0; max-width: var(--prose); }
+  .slides li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--rule); }
+  .small { font-size: 0.8rem; }
+</style>

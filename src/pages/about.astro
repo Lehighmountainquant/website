@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { club } from '../config';
+import { url } from '../lib/utils';
+
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const initials = (name: string) => name.split(/\s+/).map((w) => w[0]).slice(0, 2).join('');
+---
+
+<Base title="About" description={`Who we are and who runs the ${club.name}.`}>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">About</p>
+      <h1>Who we are</h1>
+      <p class="lede">{club.description}</p>
+    </header>
+
+    <section class="prose">
+      <h2>What we do</h2>
+      <p>
+        Quantitative finance sits where math, statistics, and programming meet markets. We meet weekly to work through
+        that material together — from expected value and Kelly betting to backtesting and options pricing — and we try to
+        keep every session hands-on.
+      </p>
+      <p>
+        Members come from math, computer science, engineering, physics, economics, and finance. You don't need prior
+        experience; you need curiosity and a willingness to write some code.
+      </p>
+      <h2>How to get involved</h2>
+      <ul>
+        <li>Come to a general meeting: <strong>{club.meetings}</strong></li>
+        <li><a href={club.joinUrl}>Fill out the interest form</a> to get on the mailing list</li>
+        <li>Pitch a research project or join an existing team at the start of each semester</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Leadership</h2>
+      <div class="team">
+        {team.map((m) => (
+          <div class="member">
+            {m.data.photo
+              ? <img src={url(m.data.photo)} alt="" class="avatar" loading="lazy" />
+              : <div class="avatar initials" aria-hidden="true">{initials(m.data.name)}</div>}
+            <div>
+              <p class="name">{m.data.name}</p>
+              <p class="role">{m.data.role}</p>
+              <p class="muted small">{[m.data.major, m.data.year].filter(Boolean).join(' · ')}</p>
+              {m.body?.trim() && <p class="small bio">{m.body.trim()}</p>}
+              {m.data.linkedin && <a href={m.data.linkedin} class="small">LinkedIn</a>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .team { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
+  @media (min-width: 640px) { .team { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 960px) { .team { grid-template-columns: repeat(3, 1fr); } }
+  .member { display: flex; gap: 1rem; align-items: flex-start; }
+  .avatar { width: 4.5rem; height: 4.5rem; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+  .initials {
+    display: grid; place-items: center; background: var(--accent-soft); color: var(--accent);
+    font-family: var(--serif); font-size: 1.4rem;
+  }
+  .name { font-weight: 600; margin: 0; }
+  .role { margin: 0; color: var(--accent); font-size: 0.92rem; }
+  .small { font-size: 0.88rem; margin: 0.2rem 0; }
+  .bio { color: var(--ink-2); }
+</style>

@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import { club } from '../config';
+import { url } from '../lib/utils';
+
+// Add sponsor logos to public/sponsors/ and list them here when you have them.
+const sponsors: { name: string; logo?: string; href?: string }[] = [];
+
+const offers = [
+  { title: 'Reach motivated candidates', text: 'Get your firm in front of students who trade, code, and do research outside of class.' },
+  { title: 'Host a talk or workshop', text: 'Present to our members on a topic of your choosing, or run a trading game or case study.' },
+  { title: 'Resume book', text: 'Receive a curated resume book of members interested in quant, trading, and data roles.' },
+  { title: 'Sponsor a competition', text: 'Fund prizes for an estimation challenge or trading competition with your branding.' },
+];
+---
+
+<Base title="Sponsors" description={`Partner with the ${club.name}.`}>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Sponsors</p>
+      <h1>Partner with us</h1>
+      <p class="lede">
+        We're building the strongest quantitative community on campus. Sponsorship funds competitions,
+        data subscriptions, and travel to intercollegiate events.
+      </p>
+      <p><a href={`mailto:${club.email}?subject=Sponsorship%20inquiry`} class="btn btn-primary">Get in touch</a></p>
+    </header>
+
+    <section>
+      <h2>What we offer</h2>
+      <div class="grid grid-2">
+        {offers.map((o) => (
+          <div class="card">
+            <h3>{o.title}</h3>
+            <p class="muted">{o.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2>Our sponsors</h2>
+      {sponsors.length === 0
+        ? <p class="empty">We're looking for our first partners this year — <a href={`mailto:${club.email}`}>reach out</a>.</p>
+        : (
+          <div class="logos">
+            {sponsors.map((s) => (
+              <a href={s.href} class="logo">{s.logo ? <img src={url(s.logo)} alt={s.name} /> : s.name}</a>
+            ))}
+          </div>
+        )}
+    </section>
+  </div>
+</Base>
+
+<style>
+  .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 1rem; }
+  .logo { display: grid; place-items: center; min-height: 5rem; border: 1px solid var(--rule); border-radius: var(--radius); padding: 1rem; color: var(--ink); text-decoration: none; }
+  .logo img { max-height: 3rem; width: auto; }
+</style>

@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, formatTime, url } from '../lib/utils';
+
+interface Props { event: CollectionEntry<'events'>; past?: boolean }
+const { event, past = false } = Astro.props;
+const { title, date, location, type, speaker, rsvp, slides } = event.data;
+const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'America/New_York' });
+const day = date.toLocaleDateString('en-US', { day: 'numeric', timeZone: 'America/New_York' });
+---
+
+<article class:list={['event', { past }]}>
+  <div class="date" aria-hidden="true">
+    <span class="m">{month}</span>
+    <span class="d">{day}</span>
+  </div>
+  <div class="body">
+    <p class="meta">
+      <span class="tag">{type}</span>
+      <time datetime={date.toISOString()}>{formatDate(date, { weekday: 'short' })} · {formatTime(date)}</time>
+    </p>
+    <h3>{title}</h3>
+    {speaker && <p class="speaker">{speaker}</p>}
+    <p class="muted loc">{location}</p>
+    {event.body && <p class="desc">{event.body.trim().split('\n\n')[0]}</p>}
+    <p class="links">
+      {!past && rsvp && <a href={rsvp} class="btn btn-primary">RSVP</a>}
+      {slides && <a href={url(slides)} class="btn btn-ghost">Slides</a>}
+    </p>
+  </div>
+</article>
+
+<style>
+  .event { display: grid; grid-template-columns: 4rem 1fr; gap: 1.25rem; padding: 1.5rem 0; border-bottom: 1px solid var(--rule); }
+  .date { text-align: center; border: 1px solid var(--rule); border-radius: var(--radius); padding: 0.5rem 0; height: fit-content; background: var(--surface); }
+  .m { display: block; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
+  .d { display: block; font-family: var(--serif); font-size: 1.7rem; line-height: 1.1; }
+  .past .date { opacity: 0.6; }
+  .past .m { color: var(--ink-3); }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--ink-3); }
+  .meta .tag { margin: 0; }
+  h3 { margin-bottom: 0.2em; }
+  .speaker { margin: 0; color: var(--ink-2); }
+  .loc { font-size: 0.9rem; margin: 0.2rem 0 0.6rem; }
+  .desc { color: var(--ink-2); margin-bottom: 0.75rem; }
+  .links { display: flex; gap: 0.5rem; margin: 0; }
+  .links:empty { display: none; }
+</style>

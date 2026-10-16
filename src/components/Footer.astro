@@ -1,0 +1,40 @@
+---
+import { club, nav } from '../config';
+import { url } from '../lib/utils';
+
+const labels: Record<string, string> = { github: 'GitHub', linkedin: 'LinkedIn', instagram: 'Instagram', discord: 'Discord' };
+const socials = Object.entries(club.social).filter(([, href]) => href);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap cols">
+    <div>
+      <p class="name">{club.name}</p>
+      <p class="muted">{club.school}<br />{club.meetings}</p>
+      <p><a href={`mailto:${club.email}`}>{club.email}</a></p>
+    </div>
+    <nav aria-label="Footer">
+      {nav.map((item) => <a href={url(item.href)}>{item.label}</a>)}
+    </nav>
+    {socials.length > 0 && (
+      <div class="social">
+        {socials.map(([name, href]) => (
+          <a href={href} rel="me noopener" target="_blank">{labels[name] ?? name}</a>
+        ))}
+      </div>
+    )}
+  </div>
+  <div class="wrap fine muted">© {year} {club.name}. Not investment advice.</div>
+</footer>
+
+<style>
+  .site-footer { margin-top: 6rem; border-top: 1px solid var(--rule); padding: 2.5rem 0 2rem; font-size: 0.92rem; }
+  .cols { display: grid; gap: 2rem; }
+  @media (min-width: 720px) { .cols { grid-template-columns: 2fr 1fr 1fr; } }
+  .name { font-family: var(--serif); font-size: 1.2rem; margin-bottom: 0.4em; }
+  nav, .social { display: flex; flex-direction: column; gap: 0.4rem; }
+  nav a, .social a { color: var(--ink-2); text-decoration: none; }
+  nav a:hover, .social a:hover { color: var(--accent); }
+  .fine { margin-top: 2rem; font-size: 0.8rem; }
+</style>

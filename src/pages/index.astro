@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import EventCard from '../components/EventCard.astro';
+import { club } from '../config';
+import { url, formatDate, randomWalk } from '../lib/utils';
+
+const now = new Date();
+const upcoming = (await getCollection('events'))
+  .filter((e) => e.data.date >= now)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
+  .slice(0, 2);
+
+const research = (await getCollection('projects', (p) => !p.data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+// Decorative price path behind the hero
+const W = 1000, H = 260, N = 160;
+const walk = randomWalk(N, 7);
+const lo = Math.min(...walk), hi = Math.max(...walk);
+const pts = walk.map((v, i) => `${((i / (N - 1)) * W).toFixed(1)},${(H - 10 - ((v - lo) / (hi - lo)) * (H - 20)).toFixed(1)}`);
+const line = pts.join(' ');
+const area = `0,${H} ${line} ${W},${H}`;
+
+const pillars = [
+  { k: '01', title: 'Learn', text: 'Workshops on probability, statistics, Python, and options — no finance background required.' },
+  { k: '02', title: 'Build', text: 'Small teams take research projects from idea to backtest to write-up each semester.' },
+  { k: '03', title: 'Compete', text: 'Market-making games, estimation contests, and intercollegiate trading competitions.' },
+];
+---
+
+<Base>
+  <section class="hero">
+    <svg class="walk" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--accent)" stop-opacity="0.14" />
+          <stop offset="1" stop-color="var(--accent)" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      <polygon points={area} fill="url(#fade)" />
+      <polyline points={line} fill="none" stroke="var(--accent)" stroke-width="1.5" vector-effect="non-scaling-stroke" />
+    </svg>
+    <div class="wrap hero-inner">
+      <p class="eyebrow">{club.school} · Student Organization</p>
+      <h1>{club.name}</h1>
+      <p class="lede">{club.tagline}</p>
+      <p class="cta">
+        <a href={club.joinUrl} class="btn btn-primary">Join the club</a>
+        <a href={url('/events/')} class="btn btn-ghost">See events →</a>
+      </p>
+      <p class="muted meet mono">{club.meetings}</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section>
+      <div class="grid grid-3">
+        {pillars.map((p) => (
+          <div class="pillar">
+            <p class="eyebrow">{p.k}</p>
+            <h3>{p.title}</h3>
+            <p class="muted">{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Upcoming</h2>
+        <a href={url('/events/')}>All events →</a>
+      </div>
+      {upcoming.length > 0
+        ? upcoming.map((e) => <EventCard event={e} />)
+        : <p class="empty">No events scheduled yet — check back soon or join the mailing list.</p>}
+    </section>
+
+    {research.length > 0 && (
+      <section>
+        <div class="section-head">
+          <h2>Member research</h2>
+          <a href={url('/projects/')}>All research →</a>
+        </div>
+        <div class="grid grid-3">
+          {research.map((p) => (
+            <a class="card research" href={url(`/projects/${p.id}/`)}>
+              <p class="eyebrow">{formatDate(p.data.date, { day: undefined, timeZone: 'UTC' })}</p>
+              <h3>{p.data.title}</h3>
+              <p class="muted">{p.data.summary}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="band card">
+      <div>
+        <h2>Recruiting at a trading firm?</h2>
+        <p class="muted">We connect sponsors with students who can actually code, reason under uncertainty, and explain their work.</p>
+      </div>
+      <a href={url('/sponsors/')} class="btn btn-primary">Partner with us</a>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--rule); }
+  .walk { position: absolute; inset: auto 0 0 0; width: 100%; height: clamp(6rem, 22vw, 15rem); opacity: 0.9; }
+  .hero-inner { position: relative; padding-top: clamp(3.5rem, 10vw, 7rem); padding-bottom: clamp(7.5rem, 24vw, 16.5rem); }
+  .hero h1 { max-width: 14ch; }
+  .cta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.75rem; }
+  .meet { font-size: 0.85rem; margin-top: 1.25rem; }
+
+  .wrap > section:first-child { margin-top: 4rem; }
+  .pillar { border-top: 2px solid var(--ink); padding-top: 1rem; }
+  .pillar .eyebrow { color: var(--accent); }
+
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.5rem; }
+  .section-head h2 { margin: 0; }
+  .section-head a { font-size: 0.92rem; white-space: nowrap; }
+
+  .research { text-decoration: none; color: inherit; transition: border-color 0.15s; margin-top: 1.25rem; }
+  .research:hover { border-color: var(--accent); }
+  .research h3 { color: var(--ink); }
+
+  .band { display: flex; flex-direction: column; gap: 1rem; padding: 2rem; }
+  .band h2 { margin-bottom: 0.3em; }
+  .band .btn { white-space: nowrap; align-self: flex-start; }
+  @media (min-width: 720px) { .band { flex-direction: row; align-items: center; justify-content: space-between; } .band p { margin: 0; } }
+</style>

@@ -1,0 +1,90 @@
+---
+import { club, nav } from '../config';
+import { url } from '../lib/utils';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path.startsWith(url(href));
+---
+
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a href={url('/')} class="brand" aria-label={`${club.name} home`}>
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
+        <polyline points="3,24 10,17 15,20 22,9 29,12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span>{club.shortName}</span>
+    </a>
+
+    <details class="menu">
+      <summary aria-label="Menu">
+        <span></span><span></span>
+      </summary>
+      <nav aria-label="Main">
+        {nav.map((item) => (
+          <a href={url(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+        ))}
+        <a href={club.joinUrl} class="btn btn-primary join">Join</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<style>
+  .skip { position: absolute; left: -999px; }
+  .skip:focus { left: 1rem; top: 1rem; z-index: 10; background: var(--surface); padding: 0.5rem 0.75rem; }
+
+  .site-header {
+    position: sticky; top: 0; z-index: 5;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 3.75rem; }
+  .brand {
+    display: flex; align-items: center; gap: 0.55rem;
+    font-family: var(--mono); font-weight: 500; font-size: 1rem; letter-spacing: 0.04em;
+    color: var(--ink); text-decoration: none;
+  }
+  .brand svg { color: var(--accent); }
+
+  /* Mobile: collapsible menu (no JavaScript needed) */
+  .menu summary {
+    list-style: none; cursor: pointer; width: 2.25rem; height: 2.25rem;
+    display: grid; place-content: center; gap: 6px;
+  }
+  .menu summary::-webkit-details-marker { display: none; }
+  .menu summary span { display: block; width: 20px; height: 1.5px; background: var(--ink); transition: transform 0.2s; }
+  .menu[open] summary span:first-child { transform: translateY(3.75px) rotate(45deg); }
+  .menu[open] summary span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+  .menu nav {
+    position: absolute; left: 0; right: 0; top: 3.75rem;
+    background: var(--bg); border-bottom: 1px solid var(--rule);
+    display: flex; flex-direction: column; padding: 0.5rem 1rem 1.25rem;
+  }
+  nav a:not(.btn) {
+    color: var(--ink-2); text-decoration: none; font-size: 0.95rem;
+    padding: 0.7rem 0; border-bottom: 1px solid var(--rule);
+  }
+  nav a[aria-current='page'] { color: var(--accent); }
+  .join { margin-top: 1rem; justify-content: center; }
+
+  /* Desktop: inline nav */
+  @media (min-width: 760px) {
+    .menu summary { display: none; }
+    .menu nav { position: static; flex-direction: row; align-items: center; gap: 1.6rem; padding: 0; border: 0; background: none; }
+    .menu:not([open]) nav { display: flex; }
+    nav a:not(.btn) { padding: 0; border: 0; }
+    nav a:not(.btn):hover { color: var(--ink); }
+    .join { margin: 0 0 0 0.4rem; padding: 0.45em 1em; }
+  }
+</style>
+
+<script>
+  // On desktop the <details> menu should always be open
+  const menu = document.querySelector<HTMLDetailsElement>('.menu');
+  const mq = window.matchMedia('(min-width: 760px)');
+  const sync = () => { if (menu && mq.matches) menu.open = true; };
+  sync();
+  mq.addEventListener('change', (e) => { if (menu) menu.open = e.matches; });
+</script>

@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/utils';
+---
+
+<Base title="Not found">
+  <div class="wrap page-head">
+    <p class="eyebrow mono">Error 404</p>
+    <h1>This page has a probability of zero.</h1>
+    <p class="lede">It may have moved, or the link might be mistyped.</p>
+    <p><a href={url('/')} class="btn btn-primary">Back to home</a></p>
+  </div>
+</Base>

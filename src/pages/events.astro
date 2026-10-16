@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import EventCard from '../components/EventCard.astro';
+import { club } from '../config';
+
+// Events are split into upcoming / past automatically by date at build time.
+// The deploy workflow also rebuilds daily so events move to "Past" on their own.
+const now = new Date();
+const all = await getCollection('events');
+const upcoming = all.filter((e) => e.data.date >= now).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+const past = all.filter((e) => e.data.date < now).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Base title="Events" description={`Talks, workshops, and competitions from the ${club.name}.`}>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Events</p>
+      <h1>Talks, workshops & competitions</h1>
+      <p class="lede">General meetings are {club.meetings.replace(' · ', ' in ')}. Everything is open to all students.</p>
+    </header>
+
+    <section>
+      <h2>Upcoming</h2>
+      {upcoming.length > 0
+        ? upcoming.map((e) => <EventCard event={e} />)
+        : <p class="empty">Nothing on the calendar yet. Join the mailing list to hear first.</p>}
+    </section>
+
+    {past.length > 0 && (
+      <section>
+        <h2>Past</h2>
+        {past.map((e) => <EventCard event={e} past />)}
+      </section>
+    )}
+  </div>
+</Base>
