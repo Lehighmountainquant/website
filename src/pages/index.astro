@@ -25,7 +25,7 @@ const tape = [...events].reverse().map((e, i) => ({
 // "The Range": stacked probability densities that form a mountain range (after the logo).
 // Each row is a slightly shifted distribution, like a prior updating toward a posterior.
 const rnd = seeded(11);
-const W = 1200, H = 420, ROWS = 18, P = 160, HOT = ROWS - 4;
+const W = 1200, H = 520, ROWS = 22, P = 160, HOT = ROWS - 4;
 const bell = (x: number, m: number, s: number) => Math.exp(-((x - m) ** 2) / (2 * s * s));
 const ridges = Array.from({ length: ROWS }, (_, r) => {
   const t = r / (ROWS - 1); // 0 = back row, 1 = front row
@@ -35,7 +35,7 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
     { m: 0.88, s: 0.04, a: 0.25 * rnd() },
     ...Array.from({ length: 4 }, () => ({ m: rnd(), s: 0.015 + 0.02 * rnd(), a: 0.05 + 0.1 * rnd() })),
   ];
-  const base = 160 + r * 13, amp = 40 + 120 * t;
+  const base = 150 + r * 17, amp = 70 + 210 * t;
   const pts = Array.from({ length: P }, (_, i) => {
     const x = i / (P - 1);
     const y = peaks.reduce((sum, p) => sum + p.a * bell(x, p.m, p.s), 0);
@@ -53,7 +53,7 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
         <path
           d={d}
           class={r === HOT ? 'hot' : undefined}
-          style={`--i:${r}; --fill:color-mix(in srgb, #52300f ${Math.round((1 - t) * 100)}%, #34190a); --edge:${(0.18 + 0.4 * t).toFixed(2)}`}
+          style={`--i:${r}; --fill:color-mix(in srgb, #4d2b0e ${Math.round((1 - t) * 100)}%, #3a1f08); --edge:${(0.08 + 0.2 * t).toFixed(2)}`}
         />
       ))}
     </svg>
@@ -163,16 +163,16 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
     background-size: 56px 56px;
     mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 75%, transparent);
   }
-  .range { position: absolute; left: 0; right: 0; bottom: 3rem; width: 100%; height: clamp(9rem, 26vw, 19.5rem);
-    mask-image: linear-gradient(to bottom, transparent 5%, #000 35%); }
+  .range { position: absolute; left: 0; right: 0; bottom: 3rem; width: 100%; height: calc(88% - 3rem);
+    mask-image: linear-gradient(to bottom, transparent, #000 30%); }
   .range path {
     fill: var(--fill); stroke: rgba(255, 228, 30, var(--edge)); stroke-width: 1; vector-effect: non-scaling-stroke;
     opacity: 0; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i) * 60ms) forwards;
   }
-  .range path.hot { stroke: var(--gold); stroke-width: 1.6; filter: drop-shadow(0 0 6px rgba(255, 228, 30, 0.4)); }
+  .range path.hot { stroke: rgba(255, 228, 30, 0.5); stroke-width: 1.25; filter: drop-shadow(0 0 4px rgba(255, 228, 30, 0.2)); }
   @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
-  .hero-inner { position: relative; padding-top: clamp(3.5rem, 10vw, 7rem); padding-bottom: clamp(11rem, 25vw, 19rem); }
+  .hero-inner { position: relative; padding-top: clamp(3.5rem, 10vw, 7rem); padding-bottom: clamp(6.5rem, 12vw, 9rem); }
   .hero .eyebrow { color: var(--gold); }
   .hero h1 { max-width: 14ch; color: #fff; font-size: clamp(2.5rem, 6vw, 4rem); }
   .hero h1::after { content: ''; display: block; width: 4rem; height: 5px; background: var(--gold); margin-top: 1rem; }
