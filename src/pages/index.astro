@@ -25,7 +25,7 @@ const tape = [...events].reverse().map((e, i) => ({
 // "The Range": stacked probability densities that form a mountain range (after the logo).
 // Each row is a slightly shifted distribution, like a prior updating toward a posterior.
 const rnd = seeded(11);
-const W = 1200, H = 520, ROWS = 22, P = 160, HOT = ROWS - 4;
+const W = 2000, H = 520, ROWS = 22, P = 160, HOT = ROWS - 4;
 const bell = (x: number, m: number, s: number) => Math.exp(-((x - m) ** 2) / (2 * s * s));
 const ridges = Array.from({ length: ROWS }, (_, r) => {
   const t = r / (ROWS - 1); // 0 = back row, 1 = front row

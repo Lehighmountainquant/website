@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import { url } from '../lib/utils';
 
 // Links from the club's "Intro to Quant Finance Roadmap" doc.
 const drive = {
@@ -19,14 +18,6 @@ const video = {
   matplotlib: 'https://www.youtube.com/watch?v=7Lc2AxiM17o',
 };
 const contact = { name: 'Ben Andresen', email: 'bea228@lehigh.edu' };
-
-// Put workshop slides in public/slides/ and list them here.
-// e.g. { title: 'Options 101', file: '/slides/options-101.pdf' }
-const workshops = [
-  { title: 'Expected Value & the Kelly Criterion', file: '' },
-  { title: 'Intro to Backtesting in Python', file: '' },
-  { title: 'Options 101: Payoffs to Black–Scholes', file: '' },
-];
 ---
 
 <!-- Keep text and links on the same line: Astro drops the space when a line break sits next to a tag. -->
@@ -138,18 +129,6 @@ const workshops = [
         </div>
       </li>
     </ol>
-
-    <section>
-      <h2>Workshop slides</h2>
-      <ul class="slides">
-        {workshops.map((w) => (
-          <li>
-            <span>{w.title}</span>
-            {w.file ? <a href={url(w.file)}>PDF</a> : <span class="muted mono small">coming soon</span>}
-          </li>
-        ))}
-      </ul>
-    </section>
   </div>
 </Base>
 
@@ -168,8 +147,4 @@ const workshops = [
   .lib { margin-top: 1.5rem; padding: 1.1rem 1.25rem; border: 1px solid var(--rule); border-radius: var(--radius); }
   .lib h4 { font-family: var(--mono); font-size: 1rem; font-weight: 500; color: var(--brown); margin: 0 0 0.5rem; }
   .lib ul:last-child { margin-bottom: 0; }
-
-  .slides { list-style: none; padding: 0; margin: 0; max-width: var(--prose); }
-  .slides li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--rule); }
-  .small { font-size: 0.8rem; }
 </style>
