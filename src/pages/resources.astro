@@ -2,47 +2,23 @@
 import Base from '../layouts/Base.astro';
 import { url } from '../lib/utils';
 
-// Edit this list freely. Each stage is a column in the learning path.
-// `free: true` shows a "Free" badge.
-const path = [
-  {
-    stage: 'Foundations',
-    note: 'Start here if you have never done any quant prep.',
-    items: [
-      { title: 'Stat 110: Probability (Harvard)', by: 'Joe Blitzstein — free lectures & book', href: 'https://stat110.hsites.harvard.edu/', free: true },
-      { title: 'Fifty Challenging Problems in Probability', by: 'Frederick Mosteller' },
-      { title: 'Python for Data Analysis', by: 'Wes McKinney — free online edition', href: 'https://wesmckinney.com/book/', free: true },
-    ],
-  },
-  {
-    stage: 'Markets & Derivatives',
-    note: 'How markets work and how instruments are priced.',
-    items: [
-      { title: 'Trading and Exchanges', by: 'Larry Harris' },
-      { title: 'Options, Futures, and Other Derivatives', by: 'John Hull' },
-      { title: 'Topics in Mathematics with Applications in Finance', by: 'MIT OpenCourseWare 18.S096', href: 'https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/', free: true },
-    ],
-  },
-  {
-    stage: 'Interview Prep',
-    note: 'Brain teasers, mental math, and market-making.',
-    items: [
-      { title: 'Heard on the Street', by: 'Timothy Crack' },
-      { title: 'A Practical Guide to Quantitative Finance Interviews', by: 'Xinfeng Zhou' },
-      { title: 'Zetamac arithmetic drill', by: 'Mental-math speed practice', href: 'https://arithmetic.zetamac.com/', free: true },
-      { title: 'Jane Street monthly puzzles', by: 'Puzzle archive', href: 'https://www.janestreet.com/puzzles/', free: true },
-    ],
-  },
-  {
-    stage: 'Research & Strategy',
-    note: 'For when you want to build and test your own ideas.',
-    items: [
-      { title: 'Active Portfolio Management', by: 'Grinold & Kahn' },
-      { title: 'Advances in Financial Machine Learning', by: 'Marcos López de Prado' },
-      { title: 'QuantConnect', by: 'Free backtesting platform & data', href: 'https://www.quantconnect.com/', free: true },
-    ],
-  },
-];
+// Links from the club's "Intro to Quant Finance Roadmap" doc.
+const drive = {
+  ultimate: 'https://drive.google.com/file/d/1kDuKNCBZQnyiUKfnSwjeezcz0A6LEIu0/view?usp=sharing',
+  maxdama: 'https://drive.google.com/file/d/1lT4HpCGZQqwrOvJ-rcJQZuyluy06a18U/view?usp=sharing',
+  tradingGuide: 'https://drive.google.com/file/d/1Vpz5TSKWVt9KAF0d6XLkD4k7H8MQ3nB2/view?usp=sharing',
+  greenBook: 'https://drive.google.com/file/d/1cP7ZmY1dCIy_uvPOfXpkYLleCrQrOFQ_/view?usp=sharing',
+  janeStreet: 'https://drive.google.com/file/d/1eWiXnrITSBxFjnLXotEf1IXmOEZQIIip/view?usp=sharing',
+  blitzstein: 'https://drive.google.com/file/d/10VjDfGRY0A-o2JeS2pCumwcHxD8Sbwqv/view?usp=sharing',
+};
+const video = {
+  setup: 'https://www.youtube.com/watch?v=pMtrm7CPlE4',
+  python: 'https://www.youtube.com/watch?v=K5KVEU3aaeQ&t=56s',
+  yfinance: 'https://www.youtube.com/watch?v=OQBvSQhkehs',
+  pandas: 'https://www.youtube.com/watch?v=2uvysYbKdjM',
+  matplotlib: 'https://www.youtube.com/watch?v=7Lc2AxiM17o',
+};
+const contact = { name: 'Ben Andresen', email: 'bea228@lehigh.edu' };
 
 // Put workshop slides in public/slides/ and list them here.
 // e.g. { title: 'Options 101', file: '/slides/options-101.pdf' }
@@ -53,31 +29,114 @@ const workshops = [
 ];
 ---
 
-<Base title="Resources" description="A learning path for quantitative finance, plus slides from past workshops.">
+<!-- Keep text and links on the same line: Astro drops the space when a line break sits next to a tag. -->
+<Base title="Resources" description="A step-by-step roadmap for getting started in quantitative finance, with readings, videos and starter projects.">
   <div class="wrap">
     <header class="page-head">
       <p class="eyebrow">Resources</p>
-      <h1>Learning path</h1>
-      <p class="lede">What our members actually use, in roughly the order we'd suggest. Free resources are marked.</p>
+      <h1>Intro to quant finance roadmap</h1>
+      <p class="lede">A step-by-step guide to getting started in quant finance with basic projects. For a more advanced overview with higher-level project ideas, see the <a href={drive.ultimate} target="_blank" rel="noopener">Roadmap: Ultimate Edition (PDF)</a>.</p>
+      <p class="contact">Questions, clarifications, or want more topics? Reach out to {contact.name} at <a href={`mailto:${contact.email}`}>{contact.email}</a>.</p>
     </header>
 
-    <ol class="stages">
-      {path.map((s, i) => (
-        <li class="stage">
-          <p class="eyebrow">Stage {i + 1}</p>
-          <h2>{s.stage}</h2>
-          <p class="muted note">{s.note}</p>
+    <ol class="steps">
+      <li class="step">
+        <p class="eyebrow">Step 1</p>
+        <h2>Build a foundational overview</h2>
+        <div class="prose">
+          <p>Start with <a href={drive.maxdama} target="_blank" rel="noopener">maxdama.pdf</a>, written by an HFT researcher at Headlands, for a solid introduction to what quantitative finance actually involves. Read the introduction and industry sections. The <a href={drive.tradingGuide} target="_blank" rel="noopener">Quant Trading Guide v2</a> is another overview. Both include interview questions, so they double as prep material.</p>
+          <p>For interview prep, read Xinfeng Zhou's <a href={drive.greenBook} target="_blank" rel="noopener"><em>A Practical Guide to Quantitative Finance Interviews</em></a>. It's commonly called "the green book" and is the most widely used resource for quant interview prep.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <p class="eyebrow">Step 2</p>
+        <h2>Develop an understanding of probability</h2>
+        <div class="prose">
+          <p>Probability is the main way trading decisions are made, because it's the best tool for reasoning about uncertainty. Read <a href={drive.janeStreet} target="_blank" rel="noopener">Jane Street's trading interview guide</a> for a quick overview of basic probability. It explains many terms we use at meetings.</p>
+          <p>For a deeper mathematical treatment, work through Blitzstein &amp; Hwang's <a href={drive.blitzstein} target="_blank" rel="noopener"><em>Introduction to Probability</em></a>.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <p class="eyebrow">Step 3</p>
+        <h2>Learn some coding basics</h2>
+        <div class="prose">
+          <p>The best way to learn to code is by building things, not just reading about it. That said, you need the concepts before you can apply them. This section covers most of what you need to get started.</p>
+
+          <h3>Setup &amp; environment</h3>
+          <p>Watch <a href={video.setup} target="_blank" rel="noopener">How to Install Python, VS Code &amp; Jupyter</a>, or follow the steps below.</p>
+          <p class="callout">If the steps below take too long or don't work, use <strong>Google Colab</strong>. We use Colab at every meeting. VS Code is still worth learning: it's useful for bigger projects and used professionally.</p>
           <ul>
-            {s.items.map((it) => (
-              <li>
-                {it.href ? <a href={it.href}>{it.title}</a> : <span class="t">{it.title}</span>}
-                {it.free && <span class="tag">Free</span>}
-                <span class="by">{it.by}</span>
-              </li>
-            ))}
+            <li><strong>Install Python 3.10+</strong> from <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a>.</li>
+            <li><strong>Install VS Code</strong> from <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">code.visualstudio.com</a>, then add the Python extension from the Extensions tab.</li>
+            <li><strong>Learn the terminal basics.</strong> You'll run Python scripts from a terminal. Get comfortable with <code>cd</code> (move into the folder you want) and <code>python script.py</code> (run the code in <code>script.py</code>).</li>
+            <li><strong>Install Jupyter Notebook</strong> by running <code>pip install notebook</code>. Jupyter is great for exploratory data work because you run code in small chunks and see results immediately. Most of our meeting work happens in notebooks.</li>
           </ul>
-        </li>
-      ))}
+
+          <h3>Python fundamentals</h3>
+          <p>Learn variables and data types, lists, dictionaries, if statements, for/while loops, and functions. <a href={video.python} target="_blank" rel="noopener">Python Full Course for Beginners</a> covers all of these. You can also ask an AI assistant to teach you and give you practice problems.</p>
+          <p class="label">Project ideas</p>
+          <ul>
+            <li>Write a script that reads a CSV of historical stock prices, calculates daily percentage returns, and prints the average return and the day with the largest move. Data: <a href="https://www.kaggle.com/datasets/tarunpaparaju/apple-aapl-historical-stock-data" target="_blank" rel="noopener">Apple stock history on Kaggle</a>.</li>
+            <li>Build a blackjack dealer that draws cards from a list, uses if statements to decide whether to hit or stand, and tracks wins over many rounds. Good practice for lists, loops, conditionals, and functions together.</li>
+          </ul>
+
+          <h3>Essential libraries</h3>
+          <p>A library is a collection of code that gives Python more capabilities. Python can't make a chart on its own, but Matplotlib adds that in one line. Instead of writing thousands of lines yourself, you import a library and use functions other developers have already written. These are the most common ones in quant work.</p>
+
+          <div class="lib">
+            <h4>yfinance</h4>
+            <p>Downloads historical and live stock data from Yahoo Finance in a single line of code. Helpful video: <a href={video.yfinance} target="_blank" rel="noopener">yfinance Crash Course: Financial Programming in Python</a>.</p>
+            <ul>
+              <li>Install: <code>pip install yfinance</code></li>
+              <li>Historical data: <code>yf.download("AAPL", start="2026-01-01")</code> returns a Pandas DataFrame with Open, High, Low, Close and Volume columns</li>
+              <li>Several tickers at once: <code>yf.download(["AAPL", "GOOG", "MSFT"], start="2023-01-01")</code></li>
+              <li>Company info: <code>yf.Ticker("AAPL").info</code> returns a dictionary with market cap, sector, P/E ratio and more</li>
+              <li>Financials: <code>yf.Ticker("AAPL").quarterly_financials</code> for income-statement data</li>
+            </ul>
+            <p class="label">Project ideas</p>
+            <ul>
+              <li>Download the last year of daily prices for 3 stocks. Print each stock's total return, its best and worst single day, and which stock had the highest average daily volume.</li>
+              <li>Pick 10–15 tickers and use <code>yf.Ticker().info</code> to pull each one's market cap, P/E ratio and sector. Store everything in a dictionary, then write functions that filter by criteria like "P/E under 20" or "tech sector only."</li>
+            </ul>
+          </div>
+
+          <div class="lib">
+            <h4>Pandas</h4>
+            <p>How you load, clean and analyze any dataset. You'll use it constantly. Good video: <a href={video.pandas} target="_blank" rel="noopener">Complete Python Pandas Data Science Tutorial (2025 Updated Edition)</a>.</p>
+            <ul>
+              <li><strong>DataFrames and Series:</strong> a DataFrame is a table with labeled rows and columns; a Series is a single column. Load data with <code>pd.read_csv("prices.csv")</code>.</li>
+              <li><strong>Indexing and filtering:</strong> select columns with <code>df["close"]</code>, filter rows with <code>df[df["volume"] &gt; 1000000]</code>, and use <code>.loc[]</code> and <code>.iloc[]</code> for precise slicing.</li>
+              <li><strong>Time series:</strong> convert dates with <code>pd.to_datetime()</code>, set the date as the index with <code>df.set_index("date")</code>, and resample with <code>df.resample("W").mean()</code> to go from daily to weekly.</li>
+              <li><strong>Calculations:</strong> <code>pct_change()</code> for returns, <code>.rolling(20).mean()</code> for moving averages, <code>.shift(1)</code> to lag data, <code>.corr()</code> for correlation matrices.</li>
+              <li><strong>GroupBy:</strong> split data by category with <code>df.groupby("sector").mean()</code> to compare returns across groups.</li>
+              <li><strong>Merging:</strong> combine datasets with <code>pd.merge(df1, df2, on="date")</code>.</li>
+            </ul>
+            <p class="label">Mini project</p>
+            <ul>
+              <li>Download historical prices for 3–5 stocks (Yahoo Finance CSVs work great). Calculate each stock's daily returns, build a correlation matrix, and find the most correlated pair.</li>
+            </ul>
+          </div>
+
+          <div class="lib">
+            <h4>Matplotlib</h4>
+            <p>Used to visualize your data. Seaborn is another library for more complex charts. Good video: <a href={video.matplotlib} target="_blank" rel="noopener">Learn Matplotlib in 30 Minutes</a>.</p>
+            <ul>
+              <li><strong>Line plots:</strong> <code>plt.plot(dates, prices)</code> for a basic time series</li>
+              <li><strong>Histograms:</strong> <code>plt.hist(returns, bins=50)</code></li>
+              <li><strong>Scatter plots:</strong> <code>plt.scatter(stock_a_returns, stock_b_returns)</code></li>
+              <li><strong>Subplots:</strong> <code>fig, axes = plt.subplots(2, 1)</code> for several charts in one figure</li>
+            </ul>
+            <p class="label">Project ideas</p>
+            <ul>
+              <li>Plot a stock's price with its 20-day and 50-day moving averages overlaid, and highlight the dates where the 20-day crosses above the 50-day. You've just built your own trading signal.</li>
+              <li>Plot a stock's daily returns as a histogram and overlay a normal curve to see whether returns are actually normally distributed.</li>
+              <li>Plot daily volume as bars with price as a line on a second y-axis using <code>plt.subplots()</code>. Color bars red on days when volume exceeds twice its 20-day average. Unusual volume often signals something important, such as earnings, news or institutional buying.</li>
+            </ul>
+          </div>
+        </div>
+      </li>
     </ol>
 
     <section>
@@ -95,17 +154,20 @@ const workshops = [
 </Base>
 
 <style>
-  .stages { list-style: none; padding: 0; margin: 0; display: grid; gap: 2.5rem; }
-  @media (min-width: 820px) { .stages { grid-template-columns: 1fr 1fr; gap: 3rem 2.5rem; } }
-  .stage { border-top: 3px solid var(--brown); padding-top: 1rem; }
-  .stage .eyebrow { color: var(--accent); }
-  .stage h2 { font-size: 1.5rem; margin-bottom: 0.2em; }
-  .note { font-size: 0.95rem; }
-  .stage ul { list-style: none; padding: 0; margin: 0; }
-  .stage li { padding: 0.65rem 0; border-bottom: 1px solid var(--rule); }
-  .stage li .tag { margin: 0 0 0 0.4rem; vertical-align: 1px; }
-  .t { font-weight: 500; }
-  .by { display: block; font-size: 0.88rem; color: var(--ink-3); }
+  .contact { font-size: 0.95rem; color: var(--ink-2); margin: 1rem 0 0; padding: 0.75rem 1rem; background: var(--tint); border-left: 4px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0; max-width: var(--prose); }
+
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 3rem; }
+  .step { border-top: 3px solid var(--brown); padding-top: 1rem; }
+  .step > .eyebrow { color: var(--accent); }
+  .step > h2 { margin-bottom: 0.6em; }
+  .step .prose h3 { margin-top: 1.8em; }
+
+  .callout { background: var(--gold-20); border-left: 4px solid var(--gold); padding: 0.7rem 1rem; color: var(--ink-2); }
+  .label { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brown); margin: 1.2em 0 0.4em; }
+
+  .lib { margin-top: 1.5rem; padding: 1.1rem 1.25rem; border: 1px solid var(--rule); border-radius: var(--radius); }
+  .lib h4 { font-family: var(--mono); font-size: 1rem; font-weight: 500; color: var(--brown); margin: 0 0 0.5rem; }
+  .lib ul:last-child { margin-bottom: 0; }
 
   .slides { list-style: none; padding: 0; margin: 0; max-width: var(--prose); }
   .slides li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--rule); }

@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 interface Props { project: CollectionEntry<'projects'> }
 const { project } = Astro.props;
 const { Content } = await render(project);
-const { title, summary, authors, date, tags, code } = project.data;
+const { title, summary, authors, date, tags, code, pdf } = project.data;
 ---
 
 <Base title={title} description={summary}>
@@ -24,9 +24,10 @@ const { title, summary, authors, date, tags, code } = project.data;
       <p class="byline">
         <span>{authors.join(', ')}</span>
         <span class="muted">{formatDate(date, { timeZone: 'UTC' })}</span>
+        {pdf && <a href={url(pdf)} target="_blank" rel="noopener">Read the paper (PDF) ↗</a>}
         {code && <a href={code}>View code ↗</a>}
       </p>
-      <p>{tags.map((t) => <span class="tag">{t}</span>)}</p>
+      {tags.length > 0 && <p>{tags.map((t) => <span class="tag">{t}</span>)}</p>}
     </header>
     <div class="prose">
       <Content />

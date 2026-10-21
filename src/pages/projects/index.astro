@@ -23,7 +23,8 @@ const projects = (await getCollection('projects', (p) => !p.data.draft))
           <p class="eyebrow">{formatDate(p.data.date, { timeZone: 'UTC' })} · {p.data.authors.join(', ')}</p>
           <h2><a href={url(`/projects/${p.id}/`)}>{p.data.title}</a></h2>
           <p class="muted">{p.data.summary}</p>
-          <p>{p.data.tags.map((t) => <span class="tag">{t}</span>)}</p>
+          {p.data.pdf && <p class="pdf"><a href={url(p.data.pdf)} target="_blank" rel="noopener">Read the paper (PDF) ↗</a></p>}
+          {p.data.tags.length > 0 && <p>{p.data.tags.map((t) => <span class="tag">{t}</span>)}</p>}
         </li>
       ))}
     </ol>
@@ -38,4 +39,5 @@ const projects = (await getCollection('projects', (p) => !p.data.draft))
   .list h2 a { color: var(--ink); text-decoration: none; }
   .list h2 a:hover { color: var(--accent); }
   .list p:last-child { margin: 0; }
+  .pdf { font-size: 0.92rem; margin-bottom: 0.6rem; }
 </style>

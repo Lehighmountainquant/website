@@ -26,6 +26,7 @@ const projects = defineCollection({
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     code: z.string().url().optional(), // link to a GitHub repo or notebook
+    pdf: z.string().optional(), // full paper in /public, e.g. /research/my-paper.pdf
     draft: z.boolean().default(false),
   }),
 });

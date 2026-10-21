@@ -53,7 +53,7 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
         <path
           d={d}
           class={r === HOT ? 'hot' : undefined}
-          style={`--i:${r}; --fill:color-mix(in srgb, #4d2b0e ${Math.round((1 - t) * 100)}%, #3a1f08); --edge:${(0.08 + 0.2 * t).toFixed(2)}`}
+          style={`--i:${r}; --fill:color-mix(in srgb, #4d2b0e ${Math.round((1 - t) * 100)}%, #3a1f08); --edge:${(0.22 + 0.12 * t).toFixed(2)}`}
         />
       ))}
     </svg>
@@ -164,7 +164,7 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
     mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 75%, transparent);
   }
   .range { position: absolute; left: 0; right: 0; bottom: 3rem; width: 100%; height: calc(88% - 3rem);
-    mask-image: linear-gradient(to bottom, transparent, #000 30%); }
+    mask-image: linear-gradient(to bottom, transparent, #000 10%); }
   .range path {
     fill: var(--fill); stroke: rgba(255, 228, 30, var(--edge)); stroke-width: 1; vector-effect: non-scaling-stroke;
     opacity: 0; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i) * 60ms) forwards;
