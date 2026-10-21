@@ -24,17 +24,9 @@ export function formatTime(d: Date): string {
   });
 }
 
-// Seeded random walk for the decorative price-path on the homepage.
-// Same seed → same path on every build, so the page doesn't "jump".
-export function randomWalk(n: number, seed = 42): number[] {
+// Seeded random numbers in [0, 1) for the decorative homepage art.
+// Same seed → same picture on every build, so the page doesn't "jump".
+export function seeded(seed = 42): () => number {
   let s = seed;
-  const rand = () => ((s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296);
-  const out = [0];
-  for (let i = 1; i < n; i++) {
-    // Box–Muller for a normal step, plus a slight upward drift
-    const u = Math.max(rand(), 1e-9), v = rand();
-    const z = Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
-    out.push(out[i - 1] + 0.04 + z);
-  }
-  return out;
+  return () => (s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296;
 }
