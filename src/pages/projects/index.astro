@@ -10,9 +10,8 @@ const projects = (await getCollection('projects', (p) => !p.data.draft))
 <Base title="Research" description="Research projects and write-ups by club members.">
   <div class="wrap">
     <header class="page-head">
-      <p class="eyebrow">Research</p>
       <h1>Member research</h1>
-      <p class="lede">Projects our members have taken from a question to a result. Code is linked where available.</p>
+      <p class="lede">Projects our members have taken from a question to a result.</p>
     </header>
 
     {projects.length === 0 && <p class="empty">No write-ups published yet.</p>}

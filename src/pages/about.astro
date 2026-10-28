@@ -11,22 +11,15 @@ const initials = (name: string) => name.split(/\s+/).map((w) => w[0]).slice(0, 2
 <Base title="About" description={`Who we are and who runs the ${club.name}.`}>
   <div class="wrap">
     <header class="page-head">
-      <p class="eyebrow">About</p>
       <h1>Who we are</h1>
-      <p class="lede">{club.description}</p>
+      <p class="lede">
+        We're a student group exploring where math, statistics, and programming meet markets. We meet weekly for
+        hands-on sessions, from portfolio theory to options pricing, and run member research projects. Open to all
+        majors, with no experience needed, just curiosity and a willingness to write some code.
+      </p>
     </header>
 
     <section class="prose">
-      <h2>What we do</h2>
-      <p>
-        Quantitative finance sits where math, statistics, and programming meet markets. We meet weekly to work through
-        that material together — from expected value and Kelly betting to backtesting and options pricing — and we try to
-        keep every session hands-on.
-      </p>
-      <p>
-        Members come from math, computer science, engineering, physics, economics, and finance. You don't need prior
-        experience; you need curiosity and a willingness to write some code.
-      </p>
       <h2>How to get involved</h2>
       <ul>
         <li>Come to a general meeting: <strong>{club.meetings}</strong></li>

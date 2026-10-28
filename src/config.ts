@@ -13,7 +13,7 @@ export const club = {
     'A student organization for anyone curious about quantitative finance: ' +
     'trading games, research projects, interview prep, and talks from people in the industry.',
 
-  email: 'quantclub@example.edu',
+  email: 'lehighquantclub@gmail.com',
 
   // GroupMe invite link for the "Join GroupMe" buttons
   groupmeUrl: 'https://groupme.com/join_group/106715228/X8A9zme6',

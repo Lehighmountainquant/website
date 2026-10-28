@@ -11,7 +11,6 @@ const meetings = (await getCollection('events')).sort((a, b) => b.data.date.valu
 <Base title="Meetings" description={`Recaps and photos from ${club.name} meetings.`}>
   <div class="wrap">
     <header class="page-head">
-      <p class="eyebrow">Meetings</p>
       <h1>Past meetings</h1>
       <p class="lede">We meet {club.meetings.replace(' · ', ' in ')}. Everything is open to all students — here's what we've been up to.</p>
     </header>
