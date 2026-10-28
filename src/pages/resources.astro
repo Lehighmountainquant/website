@@ -21,17 +21,16 @@ const contact = { name: 'Ben Andresen', email: 'bea228@lehigh.edu' };
 ---
 
 <!-- Keep text and links on the same line: Astro drops the space when a line break sits next to a tag. -->
-<Base title="Resources" description="A step-by-step roadmap for getting started in quantitative finance, with readings, videos and starter projects.">
+<Base title="Resources" description="A roadmap, one step at a time, for getting started in quantitative finance, with readings, videos and starter projects.">
   <div class="wrap">
     <header class="page-head">
       <h1>Intro to quant finance roadmap</h1>
-      <p class="lede">A step-by-step guide to getting started in quant finance with basic projects. For a more advanced overview with higher-level project ideas, see the <a href={drive.ultimate} target="_blank" rel="noopener">Roadmap: Ultimate Edition (PDF)</a>.</p>
+      <p class="lede">A guide to getting started in quant finance, one step at a time, with basic projects. For a more advanced overview with project ideas at a higher level, see the <a href={drive.ultimate} target="_blank" rel="noopener">Roadmap: Ultimate Edition (PDF)</a>.</p>
       <p class="contact">Questions, clarifications, or want more topics? Reach out to {contact.name} at <a href={`mailto:${contact.email}`}>{contact.email}</a>.</p>
     </header>
 
     <ol class="steps">
       <li class="step">
-        <p class="eyebrow">Step 1</p>
         <h2>Build a foundational overview</h2>
         <div class="prose">
           <p>Start with <a href={drive.maxdama} target="_blank" rel="noopener">maxdama.pdf</a>, written by an HFT researcher at Headlands, for a solid introduction to what quantitative finance actually involves. Read the introduction and industry sections. The <a href={drive.tradingGuide} target="_blank" rel="noopener">Quant Trading Guide v2</a> is another overview. Both include interview questions, so they double as prep material.</p>
@@ -40,7 +39,6 @@ const contact = { name: 'Ben Andresen', email: 'bea228@lehigh.edu' };
       </li>
 
       <li class="step">
-        <p class="eyebrow">Step 2</p>
         <h2>Develop an understanding of probability</h2>
         <div class="prose">
           <p>Probability is the main way trading decisions are made, because it's the best tool for reasoning about uncertainty. Read <a href={drive.janeStreet} target="_blank" rel="noopener">Jane Street's trading interview guide</a> for a quick overview of basic probability. It explains many terms we use at meetings.</p>
@@ -49,7 +47,6 @@ const contact = { name: 'Ben Andresen', email: 'bea228@lehigh.edu' };
       </li>
 
       <li class="step">
-        <p class="eyebrow">Step 3</p>
         <h2>Learn some coding basics</h2>
         <div class="prose">
           <p>The best way to learn to code is by building things, not just reading about it. That said, you need the concepts before you can apply them. This section covers most of what you need to get started.</p>
@@ -88,7 +85,7 @@ const contact = { name: 'Ben Andresen', email: 'bea228@lehigh.edu' };
             <p class="label">Project ideas</p>
             <ul>
               <li>Download the last year of daily prices for 3 stocks. Print each stock's total return, its best and worst single day, and which stock had the highest average daily volume.</li>
-              <li>Pick 10–15 tickers and use <code>yf.Ticker().info</code> to pull each one's market cap, P/E ratio and sector. Store everything in a dictionary, then write functions that filter by criteria like "P/E under 20" or "tech sector only."</li>
+              <li>Pick 10 to 15 tickers and use <code>yf.Ticker().info</code> to pull each one's market cap, P/E ratio and sector. Store everything in a dictionary, then write functions that filter by criteria like "P/E under 20" or "tech sector only."</li>
             </ul>
           </div>
 
@@ -105,7 +102,7 @@ const contact = { name: 'Ben Andresen', email: 'bea228@lehigh.edu' };
             </ul>
             <p class="label">Mini project</p>
             <ul>
-              <li>Download historical prices for 3–5 stocks (Yahoo Finance CSVs work great). Calculate each stock's daily returns, build a correlation matrix, and find the most correlated pair.</li>
+              <li>Download historical prices for 3 to 5 stocks (Yahoo Finance CSVs work great). Calculate each stock's daily returns, build a correlation matrix, and find the most correlated pair.</li>
             </ul>
           </div>
 

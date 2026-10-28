@@ -213,13 +213,14 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
     position: absolute; z-index: 1; left: 0; right: 0; bottom: 0; height: 3rem; overflow: hidden;
     display: flex; align-items: center;
     background: #241304; border-top: 1px solid rgba(255, 228, 30, 0.45); border-bottom: 1px solid #000;
-    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+    font-family: var(--serif); font-size: 1.05rem; letter-spacing: 0.01em;
     font-variant-numeric: tabular-nums;
   }
   .badge {
     position: absolute; left: 0; top: 0; bottom: 0; z-index: 1;
     display: flex; align-items: center; padding: 0 1rem;
     background: var(--gold); color: var(--brown); font-weight: 500;
+    font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
     box-shadow: 12px 0 18px -6px #241304;
   }
   .track { display: flex; width: max-content; animation: scroll 45s linear infinite; }
