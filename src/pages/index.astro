@@ -46,7 +46,7 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
 ---
 
 <Base>
-  <section class="hero">
+  <section class="hero" style={`--hero-photo: url(${url('/hero-meeting.png')})`}>
     <div class="grid-bg" aria-hidden="true"></div>
     <svg class="range" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
       {ridges.map(({ d, r, t }) => (
@@ -60,13 +60,23 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
 
     <div class="wrap hero-inner">
       <h1>{club.name}</h1>
-      <p class="lede">{club.tagline}</p>
       <p class="cta">
         <a href={club.groupmeUrl} class="btn btn-gold" rel="noopener" target="_blank">Join our GroupMe</a>
         <a href={url('/events/')} class="btn btn-line">Past meetings →</a>
         {club.social.linkedin && <a href={club.social.linkedin} class="btn btn-line" rel="noopener" target="_blank">LinkedIn ↗</a>}
       </p>
-      <p class="meet mono"><span class="dot" aria-hidden="true"></span>{club.meetings}</p>
+      <div class="stats" aria-label="Club at a glance">
+        <div class="stat">
+          <span class="num">{club.meetings.split(', ').slice(1).join(', ')}</span>
+          <span class="lbl">{club.meetings.split(', ')[0]}</span>
+        </div>
+        {club.stats.map((s) => (
+          <div class="stat">
+            <span class="num">{s.value}</span>
+            <span class="lbl">{s.label}</span>
+          </div>
+        ))}
+      </div>
     </div>
 
     {tape.length > 0 && (
@@ -151,10 +161,22 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
   /* ── Hero: dark Lehigh Brown "trading screen" ─────────────── */
   .hero {
     position: relative; overflow: hidden;
-    background: radial-gradient(120% 90% at 85% 0%, #6a3f17 0%, var(--brown) 55%, #3a1f08 100%);
+    background: var(--brown);
     color: #f6f4f2;
   }
+  /* Club photo */
+  .hero::before {
+    content: ''; position: absolute; inset: -4px; z-index: 0;
+    background: var(--hero-photo) center 62% / cover no-repeat;
+    filter: blur(1px);
+  }
+  /* Dark behind the text on the left, fading to clear on the right where the presenters are */
+  .hero::after {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background: linear-gradient(90deg, rgba(40, 22, 6, 0.9) 0%, rgba(58, 31, 8, 0.62) 45%, rgba(58, 31, 8, 0.12) 100%);
+  }
   .grid-bg {
+    display: none;
     position: absolute; inset: 0;
     background-image:
       linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
@@ -162,7 +184,7 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
     background-size: 56px 56px;
     mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 75%, transparent);
   }
-  .range { position: absolute; left: 0; right: 0; bottom: 3rem; width: 100%; height: calc(88% - 3rem);
+  .range { display: none; position: absolute; left: 0; right: 0; bottom: 3rem; width: 100%; height: calc(88% - 3rem);
     mask-image: linear-gradient(to bottom, transparent, #000 10%); }
   .range path {
     fill: var(--fill); stroke: rgba(255, 228, 30, var(--edge)); stroke-width: 1; vector-effect: non-scaling-stroke;
@@ -171,7 +193,7 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
   .range path.hot { stroke: rgba(255, 228, 30, 0.5); stroke-width: 1.25; filter: drop-shadow(0 0 4px rgba(255, 228, 30, 0.2)); }
   @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
-  .hero-inner { position: relative; padding-top: clamp(3.5rem, 10vw, 7rem); padding-bottom: clamp(6.5rem, 12vw, 9rem); }
+  .hero-inner { position: relative; z-index: 1; padding-top: clamp(3.5rem, 10vw, 7rem); padding-bottom: clamp(6.5rem, 12vw, 9rem); }
   .hero .eyebrow { color: var(--gold); }
   .hero h1 { max-width: 14ch; color: #fff; font-size: clamp(2.5rem, 6vw, 4rem); }
   .hero h1::after { content: ''; display: block; width: 4rem; height: 5px; background: var(--gold); margin-top: 1rem; }
@@ -181,10 +203,14 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
   .btn-line:hover { border-color: var(--gold); color: #fff; }
   .meet { display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; margin-top: 1.25rem; color: var(--brown-20); }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+  .stats { display: flex; flex-wrap: wrap; gap: 1.25rem 3rem; margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 228, 30, 0.35); max-width: 40rem; }
+  .stat { display: flex; flex-direction: column; gap: 0.3rem; }
+  .stat .num { font-family: var(--serif); font-size: clamp(2rem, 5vw, 2.75rem); line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .stat .lbl { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brown-20); }
 
   /* Market-tape ticker of every meeting so far */
   .ticker {
-    position: absolute; left: 0; right: 0; bottom: 0; height: 3rem; overflow: hidden;
+    position: absolute; z-index: 1; left: 0; right: 0; bottom: 0; height: 3rem; overflow: hidden;
     display: flex; align-items: center;
     background: #241304; border-top: 1px solid rgba(255, 228, 30, 0.45); border-bottom: 1px solid #000;
     font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
@@ -213,6 +239,7 @@ const ridges = Array.from({ length: ROWS }, (_, r) => {
 
   /* ── Sections ─────────────────────────────────────────────── */
   .wrap > section:first-child { margin-top: 4rem; }
+
 
   .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.5rem; }
   .section-head h2 { margin: 0; }

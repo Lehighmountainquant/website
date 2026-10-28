@@ -21,6 +21,12 @@ export const club = {
   // Where and when general meetings happen
   meetings: 'Wednesdays, 4:30 PM',
 
+  // Shown in the stats strip on the home page. Update these as the club grows.
+  stats: [
+    { value: '350+', label: 'Members in our GroupMe' },
+    { value: '25+', label: 'Average weekly attendance' },
+  ],
+
   // Optional: official Lehigh logo file for student organizations.
   // Put the file in public/ (e.g. public/lehigh-logo.svg) and set the path here.
   // Leave '' to show the university name as text instead.
